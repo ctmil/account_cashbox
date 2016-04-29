@@ -18,13 +18,16 @@ class account_cashbox_add_line(models.TransientModel):
 	amount = fields.Float(string='Monto')
 	notes = fields.Text(string='Comentarios')
 	issued_check = fields.Integer('Nro de cheque')
-	account_checkbook_id = fields.Many2one('account.checkbook')
+	account_checkbook_id = fields.Many2one('account.checkbook',domain="[('state','=','active')]")
 	analytic_account_id = fields.Many2one('account.analytic.account')
 	account_id = fields.Many2one('account.account')
 	period_id = fields.Many2one('account.period')
 
 	@api.multi
 	def confirm_line(self):
+		if self.issued_check and not self.account_checkbook_id:
+                        raise osv.except_osv(('Error'), ('Debe seleccionar la chequera'))
+                        return None
 		cashbox_id = self.env.context['active_id']
 		cashbox = self.env['account.cashbox'].browse(cashbox_id)
 		settings = self.env['account.cashbox.settings'].search([])
@@ -104,9 +107,9 @@ class account_cashbox_add_line(models.TransientModel):
 				'payment_date': self.date,
 				}
 			check_id = self.env['account.check'].create(vals_check)
-			if check_id.checkbook_id.range_from <= check_id.number <= check_id.checkbook_id.range_to:
-                        	raise osv.except_osv(('Error'), ('Numero no definido en la chequera'))
-				return None	
+			#if self_idi.checkbook_id.range_from <= check_id.number <= check_id.checkbook_id.range_to:
+                        #	raise osv.except_osv(('Error'), ('Numero no definido en la chequera'))
+			#	return None	
 			check_id.action_debit()
 			vals = {
 				'check_id': check_id.id
