@@ -28,6 +28,9 @@ class account_cashbox_add_line(models.TransientModel):
 		if self.issued_check and not self.account_checkbook_id:
                         raise osv.except_osv(('Error'), ('Debe seleccionar la chequera'))
                         return None
+		if self.issued_check < self.account_checkbook_id.range_from or self.issued_check > self.account_checkbook_id.range_to:
+                        raise osv.except_osv(('Error'), ('Cheque debe encontrarse dentro del rango seleccionado'))
+                        return None
 		cashbox_id = self.env.context['active_id']
 		cashbox = self.env['account.cashbox'].browse(cashbox_id)
 		settings = self.env['account.cashbox.settings'].search([])
