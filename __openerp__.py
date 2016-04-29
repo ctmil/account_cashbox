@@ -1,5 +1,5 @@
 {
-    'name': 'Etisa - Cashbox',
+    'name': 'Account - Cashbox',
     'category': 'Accounting',
     'version': '0.1',
     'depends': ['base','product','account','account_voucher','account_voucher_receipt','stock','sale_stock','account_check'],
