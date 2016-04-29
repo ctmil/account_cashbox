@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>	
+		<report id="report_account_cashbox"
+			string="Reporte Caja"
+			model="account.cashbox"
+			report_type="qweb-pdf"
+			name="etisa_cashbox.account_cashbox_template"
+			/>
+
+		<template id="account_cashbox_template">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.internal_layout">
+						<div class="page">
+							<!-- Report page content -->
+							    <div class="row mt32">
+								<div class="col-lg-6" >
+									<span t-field="o.name" />
+									<!-- span t-field="o.name" t-field-options='{"format": "dd/MM/yyyy"}'/ -->
+								</div>
+								<div class="col-lg-2" >
+									Monto total <span t-field="o.total_amount" />
+								</div>
+							    </div>
+							    <div class="col-xs-12" t-if="o.cashbox_lines">
+                                                               <table class="table table-condensed table-bordered">
+                                                                       <thead>
+                                                                                <tr>
+                                                                                        <th>Concepto</th>
+                                                                                        <th>Fecha</th>
+                                                                                        <th>Tipo Operacion</th>
+                                                                                        <th>Cuenta</th>
+                                                                                        <th>Centro de Costo</th>
+                                                                                        <th>Cheque</th>
+                                                                                        <th>Monto</th>
+                                                                               </tr>
+                                                                       </thead>
+                                                                       <tbody class="invoice_tbody">
+                                                                            <tr t-foreach="o.cashbox_lines" t-as="l">
+                                                                                        <td><span t-field="l.name"/></td>
+                                                                                        <td><span t-field="l.date"/></td>
+                                                                                        <td><span t-field="l.line_type"/></td>
+                                                                                        <td><span t-field="l.account_id"/></td>
+                                                                                        <td><span t-field="l.analytic_account_id"/></td>
+                                                                                        <td><span t-field="l.check_id"/></td>
+                                                                                        <td class="text-right"><span t-field="l.amount"/></td>
+                                                                            </tr>
+									</tbody>
+								</table>
+							    </div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+	</data>
+</openerp>

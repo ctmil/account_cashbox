@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="view_account_cashbox_form" model="ir.ui.view">
+            <field name="name">account.cashbox.form</field>
+            <field name="model">account.cashbox</field>
+            <field name="arch" type="xml">
+                <form string="Cajas ETISA/In-Pack">
+		    <header>
+			<button name="cashbox_add_line" type="object" string="Agregar" />
+			<button name="cashbox_substract_line" type="object" string="Sacar" />
+		    </header>
+	 	    <group>
+	                    <field name="name"/>
+			    <field name="total_amount" />
+		    </group>
+		    <group string="Lineas">
+			<field name="cashbox_lines">
+				<tree string="Lineas" edit="false" delete="false" create="false">
+					<field name="name" />
+					<field name="date" />
+					<field name="line_type" />
+					<field name="amount" />
+					<field name="account_id" />
+					<field name="move_id" />
+					<field name="check_id" />
+				</tree>
+			</field>
+		    </group>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_account_cashbox_tree" model="ir.ui.view">
+            <field name="name">account.cashbox.tree</field>
+            <field name="model">account.cashbox</field>
+            <field name="arch" type="xml">
+                <tree string="Cajas ETISA/In-Pack">
+                    <field name="name"/>
+                    <field name="total_amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_account_cashbox_lines_tree" model="ir.ui.view">
+            <field name="name">account.cashbox.tree.lines</field>
+            <field name="model">account.cashbox.lines</field>
+            <field name="arch" type="xml">
+                <tree string="Cajas ETISA/In-Pack">
+                    <field name="cashbox_name"/>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="amount"/>
+		    <field name="move_id" />
+		    <field name="check_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_account_cashbox_lines_search" model="ir.ui.view">
+            <field name="name">account.cashbox.search.lines</field>
+            <field name="model">account.cashbox.lines</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Cajas ETISA/In-Pack">
+                    <field name="cashbox_name"/>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_account_cashbox_settings_tree" model="ir.ui.view">
+            <field name="name">account.cashbox.settings.tree</field>
+            <field name="model">account.cashbox.settings</field>
+            <field name="arch" type="xml">
+                <tree string="Cajas ETISA/In-Pack Configuracion">
+                    <field name="name"/>
+                    <field name="income_account"/>
+                    <field name="expense_account"/>
+                    <field name="cashbox_account"/>
+                    <field name="bank_account"/>
+                    <field name="cashbox_journal"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_etisa_cashbox" model="ir.actions.act_window">
+            <field name="name">Caja ETISA</field>
+            <field name="res_model">account.cashbox</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_cashbox_tree"/>
+        </record>
+
+        <record id="action_etisa_cashbox_line" model="ir.actions.act_window">
+            <field name="name">Caja Detalle ETISA</field>
+            <field name="res_model">account.cashbox.lines</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_cashbox_lines_tree"/>
+            <field name="search_view_id" ref="view_account_cashbox_lines_search"/>
+        </record>
+
+        <record id="action_etisa_cashbox_config" model="ir.actions.act_window">
+            <field name="name">Caja Configuracion ETISA</field>
+            <field name="res_model">account.cashbox.settings</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_cashbox_settings_tree"/>
+        </record>
+
+        <menuitem
+            action="action_etisa_cashbox"
+            id="menu_etisa_cashbox"
+            sequence="50"
+            parent="account.menu_finance_bank_and_cash"/>
+
+        <menuitem
+            action="action_etisa_cashbox_line"
+            id="menu_etisa_cashbox_line"
+            sequence="60"
+            parent="account.menu_finance_bank_and_cash"/>
+
+        <menuitem
+            action="action_etisa_cashbox_config"
+            id="menu_etisa_cashbox_config"
+            sequence="70"
+            parent="account.menu_finance_bank_and_cash"/>
+
+    </data>
+</openerp>

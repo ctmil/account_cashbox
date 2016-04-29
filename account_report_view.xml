@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+    <record model ="ir.ui.view" id="view_receipt_report_graph">
+        <field name="name">receipt.report.graph</field>
+        <field name="model">account.receipt.report</field>
+        <field name="arch" type="xml">
+	 	<graph string="Receipt Report" type="pivot" stacked="True">
+	              <field name="journal_id" type="row"/>
+	              <field name="customer_id" type="row"/>
+	              <field name="voucher_name" type="row"/>
+		      <field name="date" interval="month" type="row"/>
+		      <field name="state" type="col"/>
+	              <field name="amount" sum="Monto" type="measure"/>
+		</graph>
+	</field>
+    </record>
+
+    <!-- record id="view_vat_report_filter" model="ir.ui.view">
+            <field name="name">vat.report.list.select</field>
+            <field name="model">account.tax.vat_report</field>
+            <field name="arch" type="xml">
+                <search string="Search VAT Report">
+                    <field name="partner_id" string="Partner" />
+	            <group expand="1" string="Group By ...">
+	                   <filter string="Journal" icon="terp-stage" domain="[]" context="{'group_by':'journal_id'}" />
+	                   <filter string="Tax" icon="terp-stage" domain="[]" context="{'group_by':'tax_name'}" />
+        	           <filter string="Month" icon="terp-go-month" domain="[]" context="{'group_by':'month'}" help="Start Date"/>
+                	   <filter string="Year" icon="terp-go-year" domain="[]" context="{'group_by':'year'}" help="Start Date"/>
+                    </group>
+                    <filter string="Sales" domain="[('invoice_type','=','out_invoice')]" help="Sale invoices"/>
+                    <filter string="Purchases" domain="[('invoice_type','=','in_invoice')]" help="Purchase invoices"/>
+               </search>
+            </field>
+    </record -->
+
+
+
+    <record model="ir.actions.act_window" id="action_receipt_reportview">
+        <field name="name">Receipt Report View</field>
+        <field name="res_model">account.receipt.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">graph</field>
+        <!-- field name="context">{'search_default_year':1,'search_default_month':1,'group_by':[]}</field -->
+        <field name="view_id" ref="view_receipt_report_graph" />
+        <!-- field name="search_view_id" ref="view_vat_report_filter" / -->
+    </record>
+
+
+    <menuitem
+            id="menu_receipt_report"
+            name="Reporte Cobranzas"
+            parent="account.menu_finance_generic_reporting" sequence="4"
+	    action="action_receipt_reportview"	/>
+   </data>
+</openerp>

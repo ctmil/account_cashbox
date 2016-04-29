@@ -1,0 +1,55 @@
+<openerp>
+	<data>
+
+		<record id="cashbox_wizard_add_line" model="ir.ui.view">
+			<field name="name">Agregar linea</field>
+			<field name="model">account.cashbox.add.line</field>
+			<field name="arch" type="xml">
+				<form string="Agregar linea">
+					<group>
+						<field name="name"/>
+						<field name="date"/>
+						<field name="period_id"/>
+						<field name="amount" />
+						<field name="issued_check" />
+						<field name="analytic_account_id" string="Centro de Costo"/>
+						<field name="account_id" string="Cuenta Contable" required="1"/>
+						<field name="notes" />
+					</group>
+					<button name="confirm_line" type="object" string="OK" /> 
+				</form>
+			</field>
+		</record>
+
+		<record id="cashbox_wizard_substract_line" model="ir.ui.view">
+			<field name="name">Sacar de Caja</field>
+			<field name="model">account.cashbox.substract.line</field>
+			<field name="arch" type="xml">
+				<form string="Agregar linea">
+					<group>
+						<field name="name"/>
+						<field name="date"/>
+						<field name="period_id"/>
+						<field name="amount" />
+						<field name="analytic_account_id" string="Centro de Costo"/>
+						<field name="account_id" string="Cuenta Contable" required="1"/>
+						<field name="notes" />
+					</group>
+					<button name="confirm_line" type="object" string="OK" /> 
+				</form>
+			</field>
+		</record>
+
+	    <!-- record id="action_confirm_sales_quote" model="ir.actions.act_window">
+        	<field name="name">Confirm/Reject</field>
+	        <field name="type">ir.actions.act_window</field>
+        	<field name="src_model">sale.order</field>
+	        <field name="res_model">sale.order.confirm</field>
+	        <field name="domain">[('state','=','draft'),('confirm_portal','=',True)]</field>
+        	<field name="view_type">form</field>
+	        <field name="view_mode">form</field>
+        	<field name="target">new</field>
+	    </record -->
+
+	</data>
+</openerp>
