@@ -18,6 +18,7 @@ class account_cashbox_add_line(models.TransientModel):
 	amount = fields.Float(string='Monto')
 	notes = fields.Text(string='Comentarios')
 	issued_check = fields.Integer('Nro de cheque')
+	account_checkbook_id = fields.Many2one('account.checkbook')
 	analytic_account_id = fields.Many2one('account.analytic.account')
 	account_id = fields.Many2one('account.account')
 	period_id = fields.Many2one('account.period')

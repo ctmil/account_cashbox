@@ -12,6 +12,7 @@
 						<field name="period_id"/>
 						<field name="amount" />
 						<field name="issued_check" />
+						<field name="account_checkbook_id" />
 						<field name="analytic_account_id" string="Centro de Costo"/>
 						<field name="account_id" string="Cuenta Contable" required="1"/>
 						<field name="notes" />
