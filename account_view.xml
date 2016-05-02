@@ -17,7 +17,7 @@
 		    </group>
 		    <group string="Lineas">
 			<field name="cashbox_lines">
-				<tree string="Lineas" edit="false" delete="false" create="false">
+				<tree string="Lineas" edit="false" delete="true" create="false">
 					<field name="name" />
 					<field name="date" />
 					<field name="line_type" />
