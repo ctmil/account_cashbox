@@ -39,10 +39,14 @@ _logger = logging.getLogger(__name__)
 class account_cashbox_lines(osv.osv):
 	_inherit = "account.cashbox.lines"
 
-
 	def unlink(self, cr, uid, ids, context=None):
 		#self._check_moves(cr, uid, ids, "unlink", context=context)
-		import pdb;pdb.set_trace()
-		return super(account_account, self).unlink(cr, uid, ids, context=context)
+		for line_id in ids:
+			cashbox_line = self.pool.get('account.cashbox.lines').browse(cr,uid,line_id)
+			if cashbox_line.move_id:
+				return_id = self.pool.get('account.move').button_cancel(cr,uid,cashbox_line.move_id.id)
+				if return_id:
+					return_id = self.pool.get('account.move').unlink(cr,uid,cashbox_line.move_id.id)
+		return super(account_cashbox_lines, self).unlink(cr, uid, ids, context=context)
 
 
