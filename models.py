@@ -71,4 +71,7 @@ class account_invoice(models.Model):
 		if self.date_invoice:
 			self.mes_factura = self.date_invoice[:7]
 
-	mes_factura = fields.Char(string='Mes factura',compute=_compute_mes_factura)
+	def _search_mes_factura(self,operator,value):
+		return [('date_invoice','like',value)]
+
+	mes_factura = fields.Char(string='Mes factura',compute=_compute_mes_factura,search=_search_mes_factura)
