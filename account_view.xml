@@ -14,7 +14,18 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="account_invoice_cashbox_tree">
+            <field name="name">account.invoice.cashbox.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="origin" position="before">
+			<field name="mes_factura" />
+                </field>
+            </field>
+        </record>
 
+	
 
         <record id="view_account_cashbox_form" model="ir.ui.view">
             <field name="name">account.cashbox.form</field>
