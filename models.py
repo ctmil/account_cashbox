@@ -62,3 +62,13 @@ class account_cashbox_settings(models.Model):
 	cashbox_account = fields.Many2one('account.account',string='Cuenta de caja')
 	bank_account = fields.Many2one('account.account',string='Cuenta de banco')
 	cashbox_journal = fields.Many2one('account.journal',string='Diario de caja')
+
+class account_invoice(models.Model):
+        _inherit = 'account.invoice'
+
+	@api.one
+	def _compute_mes_factura(self):
+		if self.date_invoice:
+			self.mes_factura = self.date_invoice[:7]
+
+	mes_factura = fields.Char(string='Mes factura',compute=_compute_mes_factura)
