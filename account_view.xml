@@ -51,6 +51,8 @@
 					<field name="analytic_account_id" />
 					<field name="move_id" />
 					<field name="check_id" />
+					<field name="create_date" string="Fecha creacion"/>
+					<field name="write_date" string="Fecha ultima modificacion"/>
 				</tree>
 			</field>
 		    </group>
