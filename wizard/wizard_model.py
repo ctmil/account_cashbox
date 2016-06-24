@@ -21,7 +21,7 @@ class account_cashbox_add_line(models.TransientModel):
 	account_checkbook_id = fields.Many2one('account.checkbook',domain="[('state','=','active')]")
 	analytic_account_id = fields.Many2one('account.analytic.account')
 	account_id = fields.Many2one('account.account')
-	period_id = fields.Many2one('account.period')
+	period_id = fields.Many2one('account.period',domain="[('state','=','draft')]")
 
 	@api.multi
 	def confirm_line(self):
@@ -129,7 +129,7 @@ class account_cashbox_substract_line(models.TransientModel):
 	notes = fields.Text(string='Comentarios')
 	analytic_account_id = fields.Many2one('account.analytic.account')
 	account_id = fields.Many2one('account.account')
-	period_id = fields.Many2one('account.period')
+	period_id = fields.Many2one('account.period',domain="[('state','=','draft')]")
 
 	@api.multi
 	def confirm_line(self):
