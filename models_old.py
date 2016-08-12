@@ -50,6 +50,14 @@ class account_cashbox_lines(osv.osv):
 		return super(account_cashbox_lines, self).unlink(cr, uid, ids, context=context)
 
 
-	def onchange_analytical_account_id(self, cr, uid, ids, context=None):
+	def onchange_analytical_account_id(self, cr, uid, ids, analytic_ccount_id, context=None):
 		import pdb;pdb.set_trace()
+		for line_id in ids:
+			if analytic_account_id:
+				line = self.pool.get('account.cashbox.lines').browse(cr,uid,line_id)
+				vals = {
+					'account_analytical_id': account_analytic_id,
+					}
+				return_id = self.pool.get('account.cashbox.lines').write(cr,uid,line_id,vals)
+				
 
