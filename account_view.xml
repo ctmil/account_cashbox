@@ -48,7 +48,8 @@
 					<field name="line_type" readonly="1"/>
 					<field name="amount" readonly="1"/>
 					<field name="account_id" readonly="1"/>
-					<field name="analytic_account_id" readonly="0" />
+					<field name="analytic_account_id" readonly="0" 
+						on_change="onchange_analytical_account_id()"/>
 					<field name="move_id" readonly="1"/>
 					<field name="check_id" readonly="1"/>
 					<field name="create_date" string="Fecha creacion" readonly="1"/>
