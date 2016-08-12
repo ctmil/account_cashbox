@@ -149,6 +149,7 @@ class account_cashbox_substract_line(models.TransientModel):
 			'amount': self.amount * (-1),
 			'name': self.name,
 			'cashbox_id': cashbox_id,
+			'analytic_account_id': self.analytic_account_id.id,
 			'line_type': 'substract',
 			}
 		if self.account_id:
