@@ -50,6 +50,7 @@ class account_cashbox_add_line(models.TransientModel):
 			'amount': self.amount,
 			'name': self.name,
 			'cashbox_id': cashbox_id,
+			'analytic_account_id': self.analytic_account_id.id,
 			'line_type': 'add',
 			}
 		line_id = self.env['account.cashbox.lines'].create(vals)
