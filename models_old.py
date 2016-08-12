@@ -63,5 +63,6 @@ class account_cashbox_lines(osv.osv):
 						'analytic_account_id': analytic_account_id,
 						}
 					for move_line_id in line.move_id.line_id:
-						return_id = self.pool.get('account.move.line').write(cr,uid,move_line_id,vals_move)
+						if move_line_id.analytic_account_id:
+							return_id = self.pool.get('account.move.line').write(cr,uid,move_line_id.id,vals_move)
 
