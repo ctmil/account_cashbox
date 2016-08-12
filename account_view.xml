@@ -42,17 +42,17 @@
 		    </group>
 		    <group string="Lineas">
 			<field name="cashbox_lines">
-				<tree string="Lineas" edit="false" delete="true" create="false">
-					<field name="name" />
-					<field name="date" />
-					<field name="line_type" />
-					<field name="amount" />
-					<field name="account_id" />
-					<field name="analytic_account_id" />
-					<field name="move_id" />
-					<field name="check_id" />
-					<field name="create_date" string="Fecha creacion"/>
-					<field name="write_date" string="Fecha ultima modificacion"/>
+				<tree string="Lineas" edit="true" delete="true" create="false" editable="bottom">
+					<field name="name" readonly="1"/>
+					<field name="date" readonly="1"/>
+					<field name="line_type" readonly="1"/>
+					<field name="amount" readonly="1"/>
+					<field name="account_id" readonly="1"/>
+					<field name="analytic_account_id" readonly="0"/>
+					<field name="move_id" readonly="1"/>
+					<field name="check_id" readonly="1"/>
+					<field name="create_date" string="Fecha creacion" readonly="1"/>
+					<field name="write_date" string="Fecha ultima modificacion" readonly="1"/>
 				</tree>
 			</field>
 		    </group>
