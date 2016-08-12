@@ -51,13 +51,17 @@ class account_cashbox_lines(osv.osv):
 
 
 	def onchange_analytical_account_id(self, cr, uid, ids, analytic_account_id=None, context=None):
-		import pdb;pdb.set_trace()
 		for line_id in ids:
 			if analytic_account_id:
 				line = self.pool.get('account.cashbox.lines').browse(cr,uid,line_id)
 				vals = {
-					'account_analytical_id': account_analytic_id,
+					'analytic_account_id': analytic_account_id,
 					}
 				return_id = self.pool.get('account.cashbox.lines').write(cr,uid,line_id,vals)
-				
+				if line.move_id:
+					vals_move ={
+						'analytic_account_id': analytic_account_id,
+						}
+					for move_line_id in line.move_id.line_id:
+						return_id = self.pool.get('account.move.line').write(cr,uid,move_line_id,vals_move)
 
