@@ -50,7 +50,7 @@ class account_cashbox_lines(osv.osv):
 		return super(account_cashbox_lines, self).unlink(cr, uid, ids, context=context)
 
 
-	def onchange_analytical_account_id(self, cr, uid, ids, analytic_ccount_id, context=None):
+	def onchange_analytical_account_id(self, cr, uid, ids, analytic_account_id=None, context=None):
 		import pdb;pdb.set_trace()
 		for line_id in ids:
 			if analytic_account_id:
