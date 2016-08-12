@@ -63,10 +63,10 @@ class account_cashbox_lines(osv.osv):
 						'analytic_account_id': analytic_account_id,
 						}
 					for move_line_id in line.move_id.line_id:
-						if line.line_type == 'substract':
-							if move_line_id.debit > 0:
-								return_id = self.pool.get('account.move.line').write(cr,uid,move_line_id.id,vals_move)
-						if line.line_type == 'add':
-							if move_line_id.credit > 0:
-								return_id = self.pool.get('account.move.line').write(cr,uid,move_line_id.id,vals_move)
+						#if line.line_type == 'substract':
+						#	if move_line_id.debit > 0:
+						return_id = self.pool.get('account.move.line').write(cr,uid,move_line_id.id,vals_move)
+						#if line.line_type == 'add':
+						#	if move_line_id.credit > 0:
+						#		return_id = self.pool.get('account.move.line').write(cr,uid,move_line_id.id,vals_move)
 
