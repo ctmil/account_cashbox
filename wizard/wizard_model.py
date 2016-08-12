@@ -73,7 +73,7 @@ class account_cashbox_add_line(models.TransientModel):
 			'narration': self.notes,
 			'move_id': move_id.id,
 			'period_id': self.period_id.id,
-			'analytic_account_id': self.analytic_account_id.id,
+			#'analytic_account_id': self.analytic_account_id.id,
 			}
 		line_debit_id = self.env['account.move.line'].create(vals_account_move_line_debit)
 		vals_account_move_line_credit = {
@@ -86,7 +86,7 @@ class account_cashbox_add_line(models.TransientModel):
 			'narration': self.notes,
 			'move_id': move_id.id,
 			'period_id': self.period_id.id,
-			#'analytic_account_id': self.analytic_account_id.id,
+			'analytic_account_id': self.analytic_account_id.id,
 			}
 		if not self.issued_check:
 			vals_account_move_line_credit['account_id'] = settings.income_account.id
@@ -177,7 +177,7 @@ class account_cashbox_substract_line(models.TransientModel):
 			'narration': self.notes,
 			'move_id': move_id.id,
 			'period_id': self.period_id.id,
-			'analytic_account_id': self.analytic_account_id.id,
+			#'analytic_account_id': self.analytic_account_id.id,
 			}
 		line_credit_id = self.env['account.move.line'].create(vals_account_move_line_credit)
 		vals_account_move_line_debit = {
@@ -190,7 +190,7 @@ class account_cashbox_substract_line(models.TransientModel):
 			'narration': self.notes,
 			'move_id': move_id.id,
 			'period_id': self.period_id.id,
-			#'analytic_account_id': self.analytic_account_id.id,
+			'analytic_account_id': self.analytic_account_id.id,
 			}
 		line_debit_id = self.env['account.move.line'].create(vals_account_move_line_debit)
 		move_id.button_validate()
