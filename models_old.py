@@ -76,7 +76,7 @@ class account_cashbox_lines(osv.osv):
 								else:
 									vals_analytic_line = {
 										'account_id': analytic_account_id,
-										'amount': line.amount * (-1),
+										'amount': line.amount,
 										'name': line.name,
 										'journal_id': 2,
 										'date': line.date,
