@@ -51,6 +51,10 @@ class account_cashbox_lines(models.Model):
 
 	@api.multi
 	def write(self,vals):
+		if 'amount' not in vals.keys() and \
+			'account_id' not in vals.keys() and
+			'analytic_account_id' not in vals.keys():
+			return super(account_cashbox_lines, self).write(vals)
 		for line in self:
 			if line.move_id:
 				if line.line_type == 'substract' and line.amount > 0:
@@ -106,10 +110,7 @@ class account_cashbox_lines(models.Model):
 	                		        }	
 			                line_credit_id = self.env['account.move.line'].create(vals_account_move_line_credit)
                 			move_id.button_validate()
-		                	vals = {
-                			        'move_id': move_id.id,
-		                        	}
-	                		line.write(vals)
+                			vals['move_id'] = move_id.id,
 				else:
 			               # Creates accounting move
 			                vals_account_move = {
@@ -147,11 +148,8 @@ class account_cashbox_lines(models.Model):
                         			}
 			                line_debit_id = self.env['account.move.line'].create(vals_account_move_line_debit)
 			                move_id.button_validate()
-			                vals = {	
-                        			'move_id': move_id.id,
-			                        }
-			                line.write(vals)
-		return None
+			                vals['move_id'] = move_id.id	
+		return super(account_cashbox_lines, self).write(vals)
 
 				
 
