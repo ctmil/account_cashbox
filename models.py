@@ -51,6 +51,7 @@ class account_cashbox_lines(models.Model):
 	check_id = fields.Many2one('account.check')
 	analytic_account_id = fields.Many2one('account.analytic.account',string='Centro de costos')
 	account_id = fields.Many2one('account.account',string='Cuenta de gastos')
+	state = fields.Selection(selection=[('posted','Publicado'),('cancel','Cancelado')],string='Estado')
 
 
 class account_cashbox_settings(models.Model):
