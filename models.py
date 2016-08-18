@@ -67,7 +67,7 @@ class account_cashbox_lines(models.Model):
         		        if not settings:
                         		raise osv.except_osv(('Error'), ('No hay configuracion definida'))
 		                        return None
-                		period_id = line.period_id
+                		period_id = line.move_id.period_id
 				self.env['account.move'].button_cancel(line.move_id.id)
 				import pdb;pdb.set_trace()
 				if line.type == 'add':
