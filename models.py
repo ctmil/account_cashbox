@@ -14,7 +14,8 @@ class account_cashbox(models.Model):
 	name = fields.Char(string='Nombre')
 	# date = fields.Date(string='Fecha')
 	cashbox_lines = fields.One2many(comodel_name='account.cashbox.lines',inverse_name='cashbox_id')
-	total_amount = freates accounting move
+        total_amount = fields.Float(string='Monto Caja',readonly=True,compute=_compute_total_amount)
+
 
 	@api.multi
 	def cashbox_add_line(self):
