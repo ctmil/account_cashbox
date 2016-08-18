@@ -55,6 +55,22 @@
 					<field name="create_date" string="Fecha creacion" readonly="1"/>
 					<field name="write_date" string="Fecha ultima modificacion" readonly="1"/>
 				</tree>
+				<form string="Lineas">
+					<group string="Cabecera">
+						<field name="name" readonly="0"/>
+						<field name="date" readonly="0"/>
+						<field name="line_type" readonly="1"/>
+						<field name="check_id" readonly="1"/>
+						<field name="create_date" string="Fecha creacion" readonly="1"/>
+						<field name="write_date" string="Fecha ultima modificacion" readonly="1"/>
+					</group>
+					<group string="Contabilidad">
+						<field name="amount" readonly="0"/>
+						<field name="account_id" readonly="0"/>
+						<field name="analytic_account_id" readonly="0" />
+						<field name="move_id" readonly="1"/>
+					</group>
+				</form>
 			</field>
 		    </group>
                 </form>
