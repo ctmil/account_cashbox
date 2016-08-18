@@ -53,11 +53,21 @@ class account_cashbox_lines(models.Model):
 	def onchange_line(self):
 		for line in self:
 			if line.move_id:
+				if line.type == 'substract' and line.amount > 0:
+                        		raise osv.except_osv(('Error'),\
+						 ('El monto debe ser negativo para retiros de dinero de la caja'))
+		                        return None
+				if line.type == 'add' and line.amount < 0:
+                        		raise osv.except_osv(('Error'),\
+						 ('El monto debe ser positivo para operaciones de agregado de dinero a la caja'))
+		                        return None
+				
+				
 			        settings = self.env['account.cashbox.settings'].search([])
         		        if not settings:
                         		raise osv.except_osv(('Error'), ('No hay configuracion definida'))
 		                        return None
-                		period_id = self.period_id
+                		period_id = line.period_id
 				self.env['account.move'].button_cancel(line.move_id.id)
 				import pdb;pdb.set_trace()
 				if line.type == 'add':
@@ -112,7 +122,7 @@ class account_cashbox_lines(models.Model):
 					move_id = self.env['account.move'].create(vals_account_move)
 			                vals_account_move_line_credit = {
                         			'account_id': settings.cashbox_account.id,
-			                        'credit': self.amount,
+			                        'credit': self.amount * (-1),
                         			'debit': 0,
 			                        'date': self.date,
                         			'journal_id': settings.cashbox_journal.id,
@@ -125,7 +135,7 @@ class account_cashbox_lines(models.Model):
 			                line_credit_id = self.env['account.move.line'].create(vals_account_move_line_credit)
 			                vals_account_move_line_debit = {
                         			'account_id': line.expense_account,
-			                        'debit': line.amount,
+			                        'debit': line.amount * (-1),
                         			'credit': 0,
 			                        'date': line.date,
                         			'journal_id': settings.cashbox_journal.id,
