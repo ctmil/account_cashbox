@@ -52,7 +52,7 @@ class account_cashbox_lines(models.Model):
 	@api.multi
 	def write(self,vals):
 		if 'amount' not in vals.keys() and \
-			'account_id' not in vals.keys() and
+			'account_id' not in vals.keys() and \
 			'analytic_account_id' not in vals.keys():
 			return super(account_cashbox_lines, self).write(vals)
 		for line in self:
