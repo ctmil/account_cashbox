@@ -79,6 +79,14 @@ class account_cashbox_lines(models.Model):
 						amount = vals['amount']
 					else:
 						amount = line.amount 
+					if 'account_id' in vals.keys():
+						account_id = vals['account_id']
+					else:
+						account_id = line.account_id.id
+					if 'analytic_account_id' in vals.keys():
+						analytic_account_id = vals['analytic_account_id']
+					else:
+						analytic_account_id = line.analytic_account_id.id
 			                vals_account_move = {
                 			        'date': line.date,
 		        	                'period_id': line.period_id.id,
@@ -101,7 +109,7 @@ class account_cashbox_lines(models.Model):
         	        		        }
 			                line_debit_id = self.env['account.move.line'].create(vals_account_move_line_debit)
         	        		vals_account_move_line_credit = {
-			                        'account_id': line.account.id,
+			                        'account_id': account_id,
                 			        'debit': 0,
 		                	        'credit': amount,
                 		        	'date': line.date,
@@ -110,7 +118,7 @@ class account_cashbox_lines(models.Model):
                 	        		'narration': line.name,
 		        	                'move_id': move_id.id,
                 			        'period_id': period_id.id,
-		                        	'analytic_account_id': line.analytic_account_id.id,
+		                        	'analytic_account_id': analytic_account_id,
 	                		        }	
 			                line_credit_id = self.env['account.move.line'].create(vals_account_move_line_credit)
                 			move_id.button_validate()
@@ -120,7 +128,15 @@ class account_cashbox_lines(models.Model):
 					if 'amount' in vals.keys():
 						amount = vals['amount'] * (-1)
 					else:
-						amount = line.amount 
+						amount = line.amount * (-1)
+					if 'account_id' in vals.keys():
+						account_id = vals['account_id']
+					else:
+						account_id = line.account_id.id
+					if 'analytic_account_id' in vals.keys():
+						analytic_account_id = vals['analytic_account_id']
+					else:
+						analytic_account_id = line.analytic_account_id.id
 			                vals_account_move = {
 			                        'date': line.date,
                         			'period_id': period_id.id,
@@ -143,7 +159,7 @@ class account_cashbox_lines(models.Model):
                         			}
 			                line_credit_id = self.env['account.move.line'].create(vals_account_move_line_credit)
 			                vals_account_move_line_debit = {
-                        			'account_id': line.account_id.id,
+                        			'account_id': account_id,
 			                        'debit': amount,
                         			'credit': 0,
 			                        'date': line.date,
@@ -152,7 +168,7 @@ class account_cashbox_lines(models.Model):
                         			'narration': line.name,
 			                        'move_id': move_id.id,
                         			'period_id': period_id.id,
-			                        'analytic_account_id': line.analytic_account_id.id,
+			                        'analytic_account_id': analytic_account_id,
                         			}
 			                line_debit_id = self.env['account.move.line'].create(vals_account_move_line_debit)
 			                move_id.button_validate()
