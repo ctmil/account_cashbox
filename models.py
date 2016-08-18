@@ -49,6 +49,7 @@ class account_cashbox_lines(models.Model):
 				self.env['account.move'].button_cancel(line.move_id.id)
 	        return super(account_cashbox_lines, self).unlink()
 
+	@api.multi
 	@api.onchange('account_id','analytic_account_id','amount','type')
 	def onchange_line(self):
 		for line in self:
