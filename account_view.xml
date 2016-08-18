@@ -42,7 +42,7 @@
 		    </group>
 		    <group string="Lineas">
 			<field name="cashbox_lines">
-				<tree string="Lineas" edit="true" delete="false" >
+				<tree string="Lineas" edit="true" delete="true" >
 					<field name="name" readonly="1"/>
 					<field name="date" readonly="1"/>
 					<field name="line_type" readonly="1"/>
