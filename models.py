@@ -14,7 +14,7 @@ class account_cashbox(models.Model):
 	name = fields.Char(string='Nombre')
 	# date = fields.Date(string='Fecha')
 	cashbox_lines = fields.One2many(comodel_name='account.cashbox.lines',inverse_name='cashbox_id')
-	total_amount = fields.Float(string='Monto Caja',readonly=True,compute=_compute_total_amount)
+	total_amount = freates accounting move
 
 	@api.multi
 	def cashbox_add_line(self):
@@ -40,6 +40,110 @@ class account_cashbox(models.Model):
 
 class account_cashbox_lines(models.Model):
 	_name = 'account.cashbox.lines'
+
+	@api.multi
+	def unlink(self):
+        	for line in self:
+			if line.move_id:
+				self.env['account.move'].button_cancel(line.move_id.id)
+	        return super(account_cashbox_lines, self).unlink()
+
+	@api.onchange('account_id','analytic_account_id','amount','type')
+	def onchange_line(self):
+		for line in self:
+			if line.move_id:
+			        settings = self.env['account.cashbox.settings'].search([])
+        		        if not settings:
+                        		raise osv.except_osv(('Error'), ('No hay configuracion definida'))
+		                        return None
+                		period_id = self.period_id
+				self.env['account.move'].button_cancel(line.move_id.id)
+				import pdb;pdb.set_trace()
+				if line.type == 'add':
+			                vals_account_move = {
+                			        'date': line.date,
+		        	                'period_id': line.period_id.id,
+                			        'journal_id': settings.cashbox_journal.id,
+			                        'ref': line.name,
+                			        'narration': line.notes,
+		                	        }
+	                		move_id = self.env['account.move'].create(vals_account_move)
+				        vals_account_move_line_debit = {
+			                        'account_id': settings.cashbox_account.id,
+		        	                'debit': line.amount,
+                			        'credit': 0,
+			                        'date': line.date,
+        	        		        'journal_id': settings.cashbox_journal.id,
+			                        'name': line.name,
+                			        'narration': line.notes,
+		                	        'move_id': move_id.id,
+                		        	'period_id': line.period_id.id,
+			                        #'analytic_account_id': self.analytic_account_id.id,
+        	        		        }
+			                line_debit_id = self.env['account.move.line'].create(vals_account_move_line_debit)
+        	        		vals_account_move_line_credit = {
+			                        'account_id': settings.income_account.id,
+                			        'debit': 0,
+		                	        'credit': line.amount,
+                		        	'date': line.date,
+			                        'journal_id': settings.cashbox_journal.id,
+        	        		        'name': line.name,
+                	        		'narration': line.notes,
+		        	                'move_id': move_id.id,
+                			        'period_id': line.period_id.id,
+		                        	'analytic_account_id': line.analytic_account_id.id,
+	                		        }	
+			                line_credit_id = self.env['account.move.line'].create(vals_account_move_line_credit)
+                			move_id.button_validate()
+		                	vals = {
+                			        'move_id': move_id.id,
+		                        	}
+	                		line.write(vals)
+				else:
+			               # Creates accounting move
+			                vals_account_move = {
+			                        'date': self.date,
+                        			'period_id': self.period_id.id,
+			                        'journal_id': settings.cashbox_journal.id,
+			                        'ref': self.name,
+                        			'narration': self.notes,
+			                        }
+					move_id = self.env['account.move'].create(vals_account_move)
+			                vals_account_move_line_credit = {
+                        			'account_id': settings.cashbox_account.id,
+			                        'credit': self.amount,
+                        			'debit': 0,
+			                        'date': self.date,
+                        			'journal_id': settings.cashbox_journal.id,
+			                        'name': self.name,
+                        			'narration': self.notes,
+			                        'move_id': move_id.id,
+                        			'period_id': self.period_id.id,
+			                        #'analytic_account_id': self.analytic_account_id.id,
+                        			}
+			                line_credit_id = self.env['account.move.line'].create(vals_account_move_line_credit)
+			                vals_account_move_line_debit = {
+                        			'account_id': line.expense_account,
+			                        'debit': line.amount,
+                        			'credit': 0,
+			                        'date': line.date,
+                        			'journal_id': settings.cashbox_journal.id,
+			                        'name': line.name,
+                        			'narration': line.notes,
+			                        'move_id': move_id.id,
+                        			'period_id': line.period_id.id,
+			                        'analytic_account_id': line.analytic_account_id.id,
+                        			}
+			                line_debit_id = self.env['account.move.line'].create(vals_account_move_line_debit)
+			                move_id.button_validate()
+			                vals = {	
+                        			'move_id': move_id.id,
+			                        }
+			                line_id.write(vals)
+		return None
+
+				
+
 
 	name = fields.Char(string='Concepto')
 	cashbox_id = fields.Many2one('account.cashbox',string='Caja')
