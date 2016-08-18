@@ -75,6 +75,10 @@ class account_cashbox_lines(models.Model):
 				#self.env['account.move'].button_cancel(line.move_id.id)
 				line.move_id.button_cancel()
 				if line.line_type == 'add':
+					if 'amount' in vals.keys():
+						amount = vals['amount']
+					else:
+						amount = line.amount 
 			                vals_account_move = {
                 			        'date': line.date,
 		        	                'period_id': line.period_id.id,
@@ -85,7 +89,7 @@ class account_cashbox_lines(models.Model):
 	                		move_id = self.env['account.move'].create(vals_account_move)
 				        vals_account_move_line_debit = {
 			                        'account_id': settings.cashbox_account.id,
-		        	                'debit': line.amount,
+		        	                'debit': amount,
                 			        'credit': 0,
 			                        'date': line.date,
         	        		        'journal_id': settings.cashbox_journal.id,
@@ -99,7 +103,7 @@ class account_cashbox_lines(models.Model):
         	        		vals_account_move_line_credit = {
 			                        'account_id': line.account.id,
                 			        'debit': 0,
-		                	        'credit': line.amount,
+		                	        'credit': amount,
                 		        	'date': line.date,
 			                        'journal_id': settings.cashbox_journal.id,
         	        		        'name': line.name,
@@ -112,7 +116,11 @@ class account_cashbox_lines(models.Model):
                 			move_id.button_validate()
                 			vals['move_id'] = move_id.id,
 				else:
-			               # Creates accounting move
+			               # Creates accounting. move
+					if 'amount' in vals.keys():
+						amount = vals['amount'] * (-1)
+					else:
+						amount = line.amount 
 			                vals_account_move = {
 			                        'date': line.date,
                         			'period_id': period_id.id,
@@ -123,7 +131,7 @@ class account_cashbox_lines(models.Model):
 					move_id = self.env['account.move'].create(vals_account_move)
 			                vals_account_move_line_credit = {
                         			'account_id': settings.cashbox_account.id,
-			                        'credit': line.amount * (-1),
+			                        'credit': amount,
                         			'debit': 0,
 			                        'date': line.date,
                         			'journal_id': settings.cashbox_journal.id,
@@ -136,7 +144,7 @@ class account_cashbox_lines(models.Model):
 			                line_credit_id = self.env['account.move.line'].create(vals_account_move_line_credit)
 			                vals_account_move_line_debit = {
                         			'account_id': line.account_id.id,
-			                        'debit': line.amount * (-1),
+			                        'debit': amount,
                         			'credit': 0,
 			                        'date': line.date,
                         			'journal_id': settings.cashbox_journal.id,
