@@ -53,11 +53,11 @@ class account_cashbox_lines(models.Model):
 	def onchange_line(self):
 		for line in self:
 			if line.move_id:
-				if line.type == 'substract' and line.amount > 0:
+				if line.line_type == 'substract' and line.amount > 0:
                         		raise osv.except_osv(('Error'),\
 						 ('El monto debe ser negativo para retiros de dinero de la caja'))
 		                        return None
-				if line.type == 'add' and line.amount < 0:
+				if line.line_type == 'add' and line.amount < 0:
                         		raise osv.except_osv(('Error'),\
 						 ('El monto debe ser positivo para operaciones de agregado de dinero a la caja'))
 		                        return None
