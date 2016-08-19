@@ -74,6 +74,8 @@ class account_cashbox_lines(models.Model):
                 		period_id = line.move_id.period_id
 				#self.env['account.move'].button_cancel(line.move_id.id)
 				line.move_id.button_cancel()
+				old_move = line.move_id
+				old_move.unlink()
 				if line.line_type == 'add':
 					if 'amount' in vals.keys():
 						amount = vals['amount']
